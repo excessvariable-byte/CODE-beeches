@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Liquid–Solid State Memory Module</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Tech Neutrals (Slate, Sky Blue, White) -->
+    <!-- Application Structure Plan: Designed a tab-based SPA with 5 thematic sections (Overview, Visual Design, Core Technology, Advantages, Applications). This structure is more user-friendly than the linear report, allowing users to non-linearly explore the product's "what", "how", and "why". The "Core Technology" section is the most interactive, linking a component list directly to a stylized HTML diagram (exploded view) and a description pane, fulfilling the "synthesize" objective. -->
+    <!-- Visualization & Content Choices: Report Info: Exploded view (FIG. 8) -> Goal: Organize/Explain -> Viz/Method: Stylized HTML/Tailwind stacked `div` diagram. Interaction: Click component list to highlight diagram layer & show info. Gemini API: Added Component Comparison AI (LLM-powered analysis). Report Info: Use Cases -> Goal: Inform -> Viz/Method: HTML/Tailwind Card Grid. Interaction: Hover. Gemini API: Added Application Scenario Generator (LLM-powered creative generation). Justification: Directly links text to its visual representation without using raster images or SVG. Report Info: Comparison -> Goal: Compare -> Viz/Method: 2-column HTML grid. Justification: Clear side-by-side comparison. **No quantitative data was present in the source reports, so Chart.js/Plotly.js were not implemented.** -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        
+        /* Navigation Styles */
+        .nav-link {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            border-bottom-color: #0284c7; /* sky-600 */
+            color: #0c4a6e; /* sky-900 */
+        }
+        
+        /* Section Hide/Show */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Chart/Diagram Container Styling (as per requirements) */
+        .diagram-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: auto; /* Auto height for flexible diagram */
+            max-height: 600px;
+        }
+
+        /* Interactive Diagram Styles */
+        .diagram-layer {
+            transition: all 0.3s ease;
+            border: 2px solid #e2e8f0; /* slate-200 */
+        }
+        .diagram-layer.highlight {
+            border-color: #0284c7; /* sky-600 */
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.5);
+            transform: scale(1.02);
+        }
+        .component-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .component-item:hover, .component-item.active {
+            background-color: #e0f2fe; /* sky-100 */
+            color: #0c4a6e; /* sky-900 */
+        }
+        
+        /* Loading Indicator */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0284c7;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header and Navigation -->
+    <header class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <h1 class="text-2xl font-bold text-sky-800 py-4">Hybrid Liquid–Solid State Memory</h1>
+                
+                <nav class="flex flex-wrap justify-center md:justify-end space-x-4 sm:space-x-6 pb-3 md:pb-0">
+                    <button class="nav-link active py-4 px-2 text-sm sm:text-base font-medium text-slate-600" data-target="overview">Overview</button>
+                    <button class="nav-link py-4 px-2 text-sm sm:text-base font-medium text-slate-600" data-target="design">Visual Design</button>
+                    <button class="nav-link py-4 px-2 text-sm sm:text-base font-medium text-slate-600" data-target="technology">Core Technology</button>
+                    <button class="nav-link py-4 px-2 text-sm sm:text-base font-medium text-slate-600" data-target="advantages">Advantages</button>
+                    <button class="nav-link py-4 px-2 text-sm sm:text-base font-medium text-slate-600" data-target="applications">Applications</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- Section: Overview -->
+        <section id="overview" class="content-section active">
+            <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-sky-900 mb-4">A New Generation of Memory</h2>
+                <p class="text-lg text-slate-600 mb-6">
+                    This interactive report explores the concept, design, and technical analysis of a next-generation hybrid Liquid–Solid State Memory Module. The device integrates a fluid-based memory chamber with traditional solid-state circuitry to provide enhanced performance, improved thermals, and increased density. It is engineered to overcome modern SSD limitations such as heat buildup, wear cycles, and speed bottlenecks.
+                </p>
+                
+                <h3 class="text-2xl font-semibold text-slate-800 mb-4">Key Performance Claims</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-sky-50 p-6 rounded-lg border border-sky-100">
+                        <span class="text-4xl">⚡</span>
+                        <h4 class="text-xl font-semibold text-sky-800 mt-2">Higher Bandwidth</h4>
+                        <p class="text-slate-600 mt-1">Delivers significantly higher data bandwidth than NAND flash alone.</p>
+                    </div>
+                    <div class="bg-sky-50 p-6 rounded-lg border border-sky-100">
+                        <span class="text-4xl">🔄</span>
+                        <h4 class="text-xl font-semibold text-sky-800 mt-2">Longer Endurance</h4>
+                        <p class="text-slate-600 mt-1">Achieves near-zero mechanical wear thanks to low-wear fluid states.</p>
+                    </div>
+                    <div class="bg-sky-50 p-6 rounded-lg border border-sky-100">
+                        <span class="text-4xl">🧊</span>
+                        <h4 class="text-xl font-semibold text-sky-800 mt-2">Better Thermal Efficiency</h4>
+                        <p class="text-slate-600 mt-1">Superior heat transfer capabilities prevent thermal throttling.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Visual Design -->
+        <section id="design" class="content-section">
+            <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-sky-900 mb-4">Ornamental Design (Design Patent FIGS. 1-7)</h2>
+                <p class="text-lg text-slate-600 mb-6">
+                    The external design is a key feature, protected by a design patent. It departs from established aesthetics by incorporating transparent elements to reveal the internal liquid chamber. Below are stylized recreations of the design figures.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- FIG. 1 -->
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <h3 class="font-semibold text-slate-800">FIG. 1: Perspective View</h3>
+                        <div class="w-full h-48 bg-slate-200 rounded-lg mt-2 flex items-center justify-center p-4">
+                            <div class="w-full h-full bg-slate-700 rounded-md p-4 shadow-inner -skew-x-12">
+                                <div class="w-3/4 h-1/2 bg-blue-200 rounded mx-auto opacity-75"></div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-2">Overall aesthetics including the transparent nano-window and outer metallic casing.</p>
+                    </div>
+
+                    <!-- FIG. 2 -->
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <h3 class="font-semibold text-slate-800">FIG. 2: Top View</h3>
+                        <div class="w-full h-48 bg-slate-700 rounded-lg mt-2 flex items-center justify-center p-4">
+                            <div class="w-3/4 h-3/4 bg-blue-200 rounded opacity-75"></div>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-2">Illustrates the liquid chamber visibility beneath the transparent window.</p>
+                    </div>
+
+                    <!-- FIG. 3 -->
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <h3 class="font-semibold text-slate-800">FIG. 3: Bottom View</h3>
+                        <div class="w-full h-48 bg-slate-700 rounded-lg mt-2 flex items-center justify-center p-4">
+                        </div>
+                        <p class="text-sm text-slate-600 mt-2">Shows the solid metallic plate with no transparent features.</p>
+                    </div>
+
+                    <!-- FIG. 4 -->
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <h3 class="font-semibold text-slate-800">FIG. 4: Front View</h3>
+                        <div class="w-full h-48 bg-slate-700 rounded-lg mt-2 flex items-center justify-end p-4 flex-col">
+                            <div class="w-full h-1/3 bg-slate-800 rounded-sm p-2">
+                                <div class="w-1/2 h-1 bg-cyan-300 rounded-full mx-auto"></div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-2">Features the ornamental LED-style indicator groove.</p>
+                    </div>
+
+                    <!-- FIG. 5 -->
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <h3 class="font-semibold text-slate-800">FIG. 5: Rear View</h3>
+                        <div class="w-full h-48 bg-slate-700 rounded-lg mt-2 flex items-center justify-center p-4">
+                             <div class="w-1/3 h-1/2 bg-slate-900 rounded-sm"></div>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-2">Shows the connector port alignment.</p>
+                    </div>
+
+                    <!-- FIG. 6 & 7 -->
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <h3 class="font-semibold text-slate-800">FIG. 6 & 7: Side Views</h3>
+                        <div class="w-full h-48 bg-slate-700 rounded-lg mt-2 flex items-center justify-center p-4">
+                             <div class="w-full h-1/4 bg-slate-800 rounded-sm"></div>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-2">Shows the low-profile slab geometry and smooth rounded edges.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Core Technology -->
+        <section id="technology" class="content-section">
+            <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-sky-900 mb-4">Core Technology: An Interactive Breakdown</h2>
+                <p class="text-lg text-slate-600 mb-8">
+                    The module's innovation comes from its layered hybrid design. Click on a component from the list to highlight it in the diagram and learn about its function.
+                </p>
+
+                <div class="flex flex-col lg:flex-row gap-8">
+                    
+                    <!-- Component List (Interactive) -->
+                    <div class="lg:w-1/3">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-4">Component List</h3>
+                        <ul id="component-list" class="space-y-2">
+                            <li class="component-item p-3 rounded-lg border border-slate-200" data-component="nano-window">Transparent Nano-Window</li>
+                            <li class="component-item p-3 rounded-lg border border-slate-200" data-component="liquid-chamber">Liquid Memory Chamber</li>
+                            <li class="component-item p-3 rounded-lg border border-slate-200" data-component="quantum-lattice">Quantum-Lattice Matrix</li>
+                            <li class="component-item p-3 rounded-lg border border-slate-200" data-component="nano-channels">Ionic Nano-Channels</li>
+                            <li class="component-item p-3 rounded-lg border border-slate-200" data-component="fiber-optic">Fiber Optic Data Pathways</li>
+                            <li class="component-item p-3 rounded-lg border border-slate-200" data-component="thermal-pipes">Thermal Micro-Pipes</li>
+                            <li class="component-item p-3 rounded-lg border border-slate-200" data-component="solid-state">Solid-State Memory Layer</li>
+                            <li class="component-item p-3 rounded-lg border border-slate-200" data-component="heat-plate">Heat Dissipation Plate</li>
+                        </ul>
+                    </div>
+
+                    <!-- Diagram and Description -->
+                    <div class="lg:w-2/3">
+                        
+                        <!-- Stylized HTML Diagram (Exploded View) -->
+                        <div class="diagram-container p-4 bg-slate-50 rounded-lg border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 mb-4 text-center">Exploded View (Stylized FIG. 8)</h3>
+                            <div class="space-y-3 p-4">
+                                <div class="diagram-layer p-3 bg-blue-100 rounded-lg text-center" data-layer="nano-window">
+                                    <span class="font-medium text-blue-900">1. Transparent Nano-Window</span>
+                                </div>
+                                <div class="diagram-layer p-6 bg-blue-200 rounded-lg text-center" data-layer="liquid-chamber">
+                                    <span class="font-medium text-blue-900">2. Liquid Memory Chamber</span>
+                                    <div class="mt-2 p-2 bg-blue-300 rounded" data-layer="quantum-lattice">
+                                        <span class="text-sm font-medium">3. Quantum-Lattice Matrix</span>
+                                    </div>
+                                    <div class="mt-1 p-1 bg-blue-400 rounded" data-layer="nano-channels">
+                                        <span class="text-xs text-white">4. Ionic Nano-Channels</span>
+                                    </div>
+                                </div>
+                                <div class="diagram-layer p-2 bg-yellow-200 rounded-lg text-center" data-layer="fiber-optic">
+                                    <span class="font-medium text-yellow-900 text-sm">5. Fiber Optic Data Pathways</span>
+                                </div>
+                                <div class="diagram-layer p-2 bg-red-200 rounded-lg text-center" data-layer="thermal-pipes">
+                                    <span class="font-medium text-red-900 text-sm">6. Thermal Micro-Pipes</span>
+                                </div>
+                                <div class="diagram-layer p-8 bg-slate-400 rounded-lg text-center" data-layer="solid-state">
+                                    <span class="font-medium text-slate-900">7. Solid-State Memory Layer (NAND)</span>
+                                </div>
+                                <div class="diagram-layer p-4 bg-slate-600 rounded-lg text-center" data-layer="heat-plate">
+                                    <span class="font-medium text-white">8. Heat Dissipation Plate</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Component Description Box -->
+                        <div id="component-description-box" class="mt-6">
+                            <div class="bg-sky-50 p-6 rounded-lg border border-sky-100">
+                                <h4 id="component-title" class="text-2xl font-semibold text-sky-800">Select a component</h4>
+                                <p id="component-text" class="text-slate-600 mt-2">Click on an item from the list to learn more about its function and role in the hybrid module.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW: Gemini Component Comparison Feature -->
+                <div class="mt-12 pt-6 border-t border-slate-200">
+                    <h3 class="text-2xl font-bold text-sky-900 mb-4">✨ Component Comparison AI</h3>
+                    <p class="text-slate-600 mb-4">Select any two components to generate a detailed, AI-driven analysis of their relationship and combined function.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                        <select id="component-1" class="p-3 border border-slate-300 rounded-lg w-full sm:w-1/2 bg-white">
+                            <option value="">Select Component 1</option>
+                        </select>
+                        <select id="component-2" class="p-3 border border-slate-300 rounded-lg w-full sm:w-1/2 bg-white">
+                            <option value="">Select Component 2</option>
+                        </select>
+                    </div>
+                    <button id="compare-button" class="w-full sm:w-auto px-6 py-3 bg-sky-600 text-white font-semibold rounded-lg hover:bg-sky-700 transition-colors shadow-md disabled:opacity-50" disabled>
+                        Compare Components
+                    </button>
+                    
+                    <div id="comparison-result" class="mt-6 bg-slate-100 p-6 rounded-lg border border-slate-200 hidden">
+                        <h4 class="text-xl font-semibold text-slate-800 mb-3">Comparison Analysis: <span id="comparison-title-span"></span></h4>
+                        <div id="comparison-content" class="text-slate-600 prose max-w-none"></div>
+                        <div id="comparison-loader" class="flex items-center justify-center space-x-3 hidden mt-4">
+                            <div class="loader"></div>
+                            <p class="text-sky-700">Generating analysis...</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Gemini Feature -->
+
+            </div>
+        </section>
+
+        <!-- Section: Advantages -->
+        <section id="advantages" class="content-section">
+            <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-sky-900 mb-4">Why Combine Liquid and Solid-State?</h2>
+                <p class="text-lg text-slate-600 mb-8">
+                    Integrating liquid memory with solid-state modules allows a breakthrough in computing architecture. This hybrid approach directly solves the primary limitations of traditional solid-state drives.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Problem 1: Heat Buildup -->
+                    <div class="rounded-lg bg-slate-50 border border-slate-200 p-6">
+                        <h3 class="text-xl font-semibold text-red-700 mb-3">Problem: Heat Buildup 🔥</h3>
+                        <p class="text-slate-600">High-speed SSDs generate significant heat, leading to thermal throttling which reduces performance.</p>
+                    </div>
+                    <div class="rounded-lg bg-sky-50 border border-sky-200 p-6 md:col-span-2">
+                        <h3 class="text-xl font-semibold text-sky-800 mb-3">Solution: Superior Heat Transfer 🧊</h3>
+                        <p class="text-slate-600">The liquid memory medium and integrated thermal micro-pipes provide superior heat transfer, moving heat away from critical components to maintain peak stability and performance.</p>
+                    </div>
+
+                    <!-- Problem 2: Wear Cycles -->
+                    <div class="rounded-lg bg-slate-50 border border-slate-200 p-6">
+                        <h3 class="text-xl font-semibold text-red-700 mb-3">Problem: Wear Cycles ⏳</h3>
+                        <p class="text-slate-600">NAND flash memory has a finite number of write cycles, causing the drive to "wear out" over time, especially in write-heavy tasks.</p>
+                    </div>
+                    <div class="rounded-lg bg-sky-50 border border-sky-200 p-6 md:col-span-2">
+                        <h3 class="text-xl font-semibold text-sky-800 mb-3">Solution: Low-Wear Fluid States 🔄</h3>
+                        <p class="text-slate-600">Liquid memory channels operate with near-zero mechanical wear and feature self-healing molecular structures, offering exponentially longer endurance for write-intensive operations.</p>
+                    </div>
+
+                    <!-- Problem 3: Speed Bottlenecks -->
+                    <div class="rounded-lg bg-slate-50 border border-slate-200 p-6">
+                        <h3 class="text-xl font-semibold text-red-700 mb-3">Problem: Speed Bottlenecks ⚡</h3>
+                        <p class="text-slate-600">Traditional architectures are limited by data transfer speeds between separate memory and processing units.</p>
+                    </div>
+                    <div class="rounded-lg bg-sky-50 border border-sky-200 p-6 md:col-span-2">
+                        <h3 class="text-xl font-semibold text-sky-800 mb-3">Solution: Adaptive In-Memory Computation 🧠</h3>
+                        <p class="text-slate-600">The hybrid module enables adaptive computation possibilities directly within the memory, reducing latency and bypassing traditional bottlenecks for faster processing.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Applications -->
+        <section id="applications" class="content-section">
+            <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-sky-900 mb-4">Primary Use Cases</h2>
+                <p class="text-lg text-slate-600 mb-8">
+                    This technology is designed for next-generation, high-performance computing tasks where speed, endurance, and density are critical.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    
+                    <div class="p-6 bg-slate-50 rounded-lg border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-slate-300">
+                        <span class="text-3xl">🖥️</span>
+                        <h3 class="text-xl font-semibold text-slate-800 mt-2">High-Speed Workstations</h3>
+                        <p class="text-slate-600 mt-1">For 8K video rendering, complex scientific modeling, and heavy multitasking.</p>
+                    </div>
+                    
+                    <div class="p-6 bg-slate-50 rounded-lg border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-slate-300">
+                        <span class="text-3xl">🤖</span>
+                        <h3 class="text-xl font-semibold text-slate-800 mt-2">AI Inference Accelerators</h3>
+                        <p class="text-slate-600 mt-1">Enables rapid, in-memory processing for complex neural networks and machine learning.</p>
+                    </div>
+
+                    <div class="p-6 bg-slate-50 rounded-lg border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-slate-300">
+                        <span class="text-3xl">⚛️</span>
+                        <h3 class="text-xl font-semibold text-slate-800 mt-2">Quantum Hybrid Processors</h3>
+                        <p class="text-slate-600 mt-1">Acts as a high-speed, stable bridge between classical and quantum computing elements.</p>
+                    </div>
+
+                    <div class="p-6 bg-slate-50 rounded-lg border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-slate-300">
+                        <span class="text-3xl">📈</span>
+                        <h3 class="text-xl font-semibold text-slate-800 mt-2">Real-Time Data Simulation</h3>
+                        <p class="text-slate-600 mt-1">Perfect for financial modeling, weather prediction, and physics simulation engines.</p>
+                    </div>
+
+                    <div class="p-6 bg-slate-50 rounded-lg border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-slate-300">
+                        <span class="text-3xl">💾</span>
+                        <h3 class="text-xl font-semibold text-slate-800 mt-2">High-Density Portable Storage</h3>
+                        <p class="text-slate-600 mt-1">Greater volumetric density allows for massive storage capacities in smaller form factors.</p>
+                    </div>
+
+                </div>
+                
+                <!-- NEW: Gemini Scenario Generator Feature -->
+                <div class="mt-12 pt-6 border-t border-slate-200">
+                    <h3 class="text-2xl font-bold text-sky-900 mb-4">✨ Application Scenario Generator</h3>
+                    <p class="text-slate-600 mb-4">Enter a specific industry or challenge, and the AI will generate a tailored, high-impact application scenario for the Hybrid Memory Module.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                        <input type="text" id="scenario-input" placeholder="e.g., Autonomous Vehicles, Drug Discovery, Climate Modeling" class="p-3 border border-slate-300 rounded-lg w-full bg-white focus:ring-sky-500 focus:border-sky-500"/>
+                    </div>
+                    <button id="scenario-button" class="w-full sm:w-auto px-6 py-3 bg-sky-600 text-white font-semibold rounded-lg hover:bg-sky-700 transition-colors shadow-md disabled:opacity-50">
+                        Generate Scenario
+                    </button>
+                    
+                    <div id="scenario-result" class="mt-6 bg-sky-50 p-6 rounded-lg border border-sky-200 hidden">
+                        <h4 class="text-xl font-semibold text-sky-800 mb-3">Generated Scenario: <span id="scenario-title-span"></span></h4>
+                        <div id="scenario-content" class="text-slate-700 prose max-w-none"></div>
+                        <div id="scenario-loader" class="flex items-center justify-center space-x-3 hidden mt-4">
+                            <div class="loader"></div>
+                            <p class="text-sky-700">Composing new application...</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Gemini Feature -->
+
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center py-8 text-slate-500 text-sm">
+        Interactive Report generated from source documents.
+    </footer>
+
+    <script type="module">
+        
+        // --- API Configuration ---
+        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=";
+        const API_KEY = ""; // Placeholder, will be provided by environment
+
+        // --- Component Data (includes descriptions for LLM context) ---
+        const componentData = {
+            "nano-window": {
+                name: "Transparent Nano-Window",
+                text: "Provides external visibility into the liquid memory medium. It is constructed using reinforced poly-sapphire, which also allows for optical readouts for diagnostic purposes."
+            },
+            "liquid-chamber": {
+                name: "Liquid Memory Chamber",
+                text: "Contains the engineered data-carrying ionic nano-channels. This liquid medium can adapt dynamically and features self-healing molecular structures to prevent wear."
+            },
+            "quantum-lattice": {
+                name: "Quantum-Lattice Matrix",
+                text: "Provides a stabilized micro-environment for the fluid-state bit logic. This matrix enables the 'quantum-like' data transitions by precisely organizing the nano-channels."
+            },
+            "nano-channels": {
+                name: "Ionic Nano-Channels",
+                text: "These are the core of the liquid memory. They are engineered, data-carrying fluid pathways capable of storing state information by changing their ionic properties."
+            },
+            "fiber-optic": {
+                name: "Fiber Optic Data Pathways",
+                text: "Used for ultra-high-speed data transmission between the liquid logic layer and the solid-state circuits, minimizing latency."
+            },
+            "thermal-pipes": {
+                name: "Thermal Micro-Pipes",
+                text: "Embedded pipes that actively transfer heat away from both the liquid chamber and the solid-state circuits, ensuring operational stability and preventing throttling."
+            },
+            "solid-state": {
+                name: "Solid-State Memory Layer",
+                text: "A traditional silicon-based NAND/flash layer that works as a long-term, stable backup for non-volatile data storage."
+            },
+            "heat-plate": {
+                name: "Heat Dissipation Plate",
+                text: "Ensures thermal regulation by spreading heat across a larger surface area at the base of the module, working in conjunction with the micro-pipes."
+            }
+        };
+
+        // --- Utility Function for Exponential Backoff ---
+        async function fetchWithRetry(url, payload, retries = 3, delay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url + API_KEY, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429 && i < retries - 1) {
+                        await new Promise(resolve => setTimeout(resolve, delay * (2 ** i) + Math.random() * 1000));
+                        continue;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    return response.json();
+
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    // Retrying...
+                }
+            }
+        }
+
+        // --- Navigation Logic ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.content-section');
+
+        function updateActiveTab(targetId) {
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.dataset.target === targetId);
+            });
+            sections.forEach(section => {
+                section.classList.toggle('active', section.id === targetId);
+            });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                updateActiveTab(e.target.dataset.target);
+            });
+        });
+
+        // Initialize with a default tab
+        updateActiveTab('overview');
+
+        // --- Core Technology Interaction Logic ---
+        const componentListItems = document.querySelectorAll('.component-item');
+        const diagramLayers = document.querySelectorAll('.diagram-layer');
+        const componentTitle = document.getElementById('component-title');
+        const componentText = document.getElementById('component-text');
+
+        function updateTechnologyView(componentId) {
+            // Update List
+            componentListItems.forEach(item => {
+                item.classList.toggle('active', item.dataset.component === componentId);
+            });
+
+            // Update Diagram
+            diagramLayers.forEach(layer => {
+                layer.classList.toggle('highlight', layer.dataset.layer === componentId);
+            });
+
+            // Update Description Box
+            const data = componentData[componentId];
+            if (data) {
+                componentTitle.textContent = data.name;
+                componentText.textContent = data.text;
+            }
+        }
+
+        componentListItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                const componentId = e.currentTarget.dataset.component;
+                updateTechnologyView(componentId);
+
+                // Scroll to the description box on mobile for better UX
+                if (window.innerWidth < 1024) {
+                    document.getElementById('component-description-box').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+        });
+
+        // Initialize with a default component highlighted
+        updateTechnologyView('liquid-chamber');
+
+        // --- Gemini Component Comparison AI Logic ---
+        const componentSelect1 = document.getElementById('component-1');
+        const componentSelect2 = document.getElementById('component-2');
+        const compareButton = document.getElementById('compare-button');
+        const comparisonResult = document.getElementById('comparison-result');
+        const comparisonTitleSpan = document.getElementById('comparison-title-span');
+        const comparisonContent = document.getElementById('comparison-content');
+        const comparisonLoader = document.getElementById('comparison-loader');
+
+        // Populate dropdowns
+        Object.keys(componentData).forEach(id => {
+            const option1 = document.createElement('option');
+            option1.value = id;
+            option1.textContent = componentData[id].name;
+            componentSelect1.appendChild(option1);
+
+            const option2 = document.createElement('option');
+            option2.value = id;
+            option2.textContent = componentData[id].name;
+            componentSelect2.appendChild(option2);
+        });
+
+        function checkComparisonInputs() {
+            const id1 = componentSelect1.value;
+            const id2 = componentSelect2.value;
+            compareButton.disabled = !id1 || !id2 || id1 === id2;
+        }
+
+        componentSelect1.addEventListener('change', checkComparisonInputs);
+        componentSelect2.addEventListener('change', checkComparisonInputs);
+
+        compareButton.addEventListener('click', async () => {
+            const id1 = componentSelect1.value;
+            const id2 = componentSelect2.value;
+
+            if (!id1 || !id2 || id1 === id2) return;
+
+            const name1 = componentData[id1].name;
+            const desc1 = componentData[id1].text;
+            const name2 = componentData[id2].name;
+            const desc2 = componentData[id2].text;
+
+            const systemPrompt = "You are a specialized technical architect. Analyze the two provided memory module components. Provide a concise, professional comparison that explains their individual roles, their functional relationship, and how their combined operation contributes to the overall Hybrid Liquid-Solid State Memory Module's success. Format the response using markdown (H3, paragraphs, and lists).";
+
+            const userQuery = `Component 1 is named "${name1}" and its function is: "${desc1}". Component 2 is named "${name2}" and its function is: "${desc2}". Analyze the relationship between these two specific components in the context of the hybrid memory module.`;
+
+            comparisonTitleSpan.textContent = `${name1} vs. ${name2}`;
+            comparisonContent.innerHTML = '';
+            comparisonResult.classList.add('active');
+            comparisonResult.classList.remove('hidden');
+            comparisonLoader.classList.remove('hidden');
+            compareButton.disabled = true;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            try {
+                const result = await fetchWithRetry(API_URL, payload);
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "Analysis could not be generated.";
+                
+                // Simple markdown conversion for display
+                let htmlContent = text.replace(/### (.*)/g, '<h4>$1</h4>')
+                                      .replace(/\*\*(.*)\*\*/g, '<strong>$1</strong>')
+                                      .replace(/\n\n/g, '<p>')
+                                      .replace(/\n/g, '<br>');
+                                      
+                comparisonContent.innerHTML = htmlContent;
+                
+            } catch (error) {
+                console.error('Gemini API Error for Comparison:', error);
+                comparisonContent.innerHTML = `<p class="text-red-600">Error generating analysis. Please try again. (Details: ${error.message})</p>`;
+            } finally {
+                comparisonLoader.classList.add('hidden');
+                compareButton.disabled = false;
+            }
+        });
+
+
+        // --- Gemini Application Scenario Generator Logic ---
+        const scenarioInput = document.getElementById('scenario-input');
+        const scenarioButton = document.getElementById('scenario-button');
+        const scenarioResult = document.getElementById('scenario-result');
+        const scenarioTitleSpan = document.getElementById('scenario-title-span');
+        const scenarioContent = document.getElementById('scenario-content');
+        const scenarioLoader = document.getElementById('scenario-loader');
+
+        scenarioButton.addEventListener('click', async () => {
+            const industry = scenarioInput.value.trim();
+            if (!industry) {
+                scenarioInput.focus();
+                return;
+            }
+
+            const systemPrompt = "You are a visionary technology marketing strategist. Your task is to take a given industry and the technical advantages of the Hybrid Liquid-Solid State Memory Module (Higher Bandwidth, Longer Endurance, Better Thermal Efficiency, Adaptive In-Memory Computation) and generate a compelling, detailed application scenario. The response must be a single paragraph summary followed by a brief bulleted list of Key Benefits. Do not use any markdown formatting like bolding or headings. Keep the language professional and impactful.";
+
+            const userQuery = `Create a high-impact application scenario for the Hybrid Liquid-Solid State Memory Module within the industry/challenge of: ${industry}. Focus on how its unique hybrid liquid-solid features (zero wear, superior heat transfer, in-memory processing) solve current limitations in that field.`;
+
+            scenarioTitleSpan.textContent = industry;
+            scenarioContent.innerHTML = '';
+            scenarioResult.classList.add('active');
+            scenarioResult.classList.remove('hidden');
+            scenarioLoader.classList.remove('hidden');
+            scenarioButton.disabled = true;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            try {
+                const result = await fetchWithRetry(API_URL, payload);
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "Scenario could not be generated.";
+                
+                // Simple formatting based on expected output (paragraph + list)
+                const parts = text.split(/•/);
+                let html = `<p>${parts[0].trim()}</p>`;
+                if (parts.length > 1) {
+                    html += '<h4>Key Benefits:</h4><ul>';
+                    for (let i = 1; i < parts.length; i++) {
+                        if (parts[i].trim()) {
+                            html += `<li>${parts[i].trim()}</li>`;
+                        }
+                    }
+                    html += '</ul>';
+                }
+                
+                scenarioContent.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Gemini API Error for Scenario:', error);
+                scenarioContent.innerHTML = `<p class="text-red-600">Error generating scenario. Please try again. (Details: ${error.message})</p>`;
+            } finally {
+                scenarioLoader.classList.add('hidden');
+                scenarioButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
